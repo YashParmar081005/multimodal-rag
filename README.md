@@ -1,56 +1,227 @@
-# Multimodal RAG Application
+# 🚀 Multimodal RAG System (PDF + AI Chat)
 
-A complete production-ready Multimodal RAG system allowing users to upload PDFs and ask questions using the Mistral AI API.
+A **Multimodal Retrieval-Augmented Generation (RAG)** web application where users can upload PDFs and ask questions based on the document content using **OpenRouter (free LLMs like Mistral)**.
 
-## Features
-- Fully responsive and aesthetic React/Vite frontend (TailwindCSS)
-- FastAPI backend router with endpoints for uploading and asking
-- PyMuPDF wrapper for text extraction and image detection
-- Local FAISS vector storage combined with `sentence-transformers`
-- RAG generation empowered by Mistral AI (`mistral-small`)
+---
 
-## Quickstart
+## 🎯 Features
 
-### 1. Setup Backend
+* 📄 Upload PDF files
+* 🧠 Extract text + basic image info
+* 🔍 Generate embeddings using SentenceTransformers
+* 🗂 Store vectors using FAISS
+* 💬 Ask questions about the document
+* 🤖 Get AI-generated answers using OpenRouter (free models)
+* 🌐 Simple React frontend
 
-1. Navigate to the backend directory and create a virtual environment:
-   ```bash
-   cd backend
-   python -m venv venv
-   
-   # Activate on Windows:
-   venv\Scripts\activate
-   
-   # Activate on Mac/Linux:
-   # source venv/bin/activate
-   ```
+---
 
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+## 🧠 Tech Stack
 
-3. Setup environment variables by creating a `.env` file in the `backend/` directory:
-   ```
-   OPENROUTER_API_KEY=your_openrouter_key_here
-   ```
+### 🔹 Backend
 
-4. Run the FastAPI server:
-   ```bash
-   uvicorn main:app --reload
-   ```
+* FastAPI
+* PyMuPDF (PDF processing)
+* FAISS (Vector DB)
+* SentenceTransformers (Embeddings)
+* OpenRouter API (Mistral / free models)
+* Python-dotenv
 
-### 2. Setup Frontend
+### 🔹 Frontend
 
-1. Navigate to the frontend directory and install dependencies:
-   ```bash
-   cd frontend
-   npm install
-   ```
+* React (Vite)
+* Axios
 
-2. Start the Vite React development server:
-   ```bash
-   npm run dev
-   ```
+---
 
-3. Open your browser and navigate to the local URL provided in your terminal (usually `http://localhost:5173`).
+## 📁 Project Structure
+
+```bash
+multimodal-rag/
+│
+├── backend/
+│   ├── main.py
+│   ├── rag_pipeline.py
+│   ├── config.py
+│   ├── requirements.txt
+│   ├── .env
+│
+├── frontend/
+│   ├── src/
+│   │   ├── App.jsx
+│   │   ├── Upload.jsx
+│   │   ├── Chat.jsx
+│   ├── package.json
+│
+└── README.md
+```
+
+---
+
+## ⚙️ Backend Setup
+
+### 1️⃣ Create Virtual Environment
+
+```bash
+cd backend
+python -m venv venv
+```
+
+Activate:
+
+**Windows**
+
+```bash
+venv\Scripts\activate
+```
+
+**Mac/Linux**
+
+```bash
+source venv/bin/activate
+```
+
+---
+
+### 2️⃣ Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+### 3️⃣ Setup Environment Variables
+
+Create `.env` file in `backend/`:
+
+```env
+OPENROUTER_API_KEY=your_api_key_here
+```
+
+---
+
+### 4️⃣ Run Backend Server
+
+```bash
+uvicorn main:app --reload
+```
+
+Server will run at:
+
+👉 http://127.0.0.1:8000
+
+---
+
+## 🧪 API Testing
+
+Open Swagger UI:
+
+👉 http://127.0.0.1:8000/docs
+
+### Endpoints:
+
+* **POST /upload** → Upload PDF
+* **GET /ask?query=...** → Ask question
+
+---
+
+## 🎨 Frontend Setup
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Frontend runs at:
+
+👉 http://localhost:5173
+
+---
+
+## 🔍 How It Works
+
+1. User uploads a PDF
+2. Backend extracts text + images
+3. Text is converted into embeddings
+4. Stored in FAISS vector database
+5. User asks a question
+6. Relevant chunks are retrieved
+7. Sent to OpenRouter API
+8. AI returns contextual answer
+
+---
+
+## 🧠 RAG Flow
+
+```text
+PDF → Text Extraction → Embeddings → FAISS
+     → Query → Retrieval → OpenRouter → Answer
+```
+
+---
+
+## 🤖 OpenRouter API Integration
+
+Example usage:
+
+```python
+import requests
+import os
+
+API_KEY = os.getenv("OPENROUTER_API_KEY")
+
+def query_llm(prompt):
+    response = requests.post(
+        "https://openrouter.ai/api/v1/chat/completions",
+        headers={
+            "Authorization": f"Bearer {API_KEY}",
+            "Content-Type": "application/json"
+        },
+        json={
+            "model": "mistralai/mistral-7b-instruct:free",
+            "messages": [
+                {"role": "user", "content": prompt}
+            ]
+        }
+    )
+    return response.json()["choices"][0]["message"]["content"]
+```
+
+---
+
+## ⚠️ Notes
+
+* Do NOT commit `.env` file
+* Free models have rate limits (~50 requests/day)
+* Some models may be slow or temporarily unavailable
+
+---
+
+## 🚀 Future Improvements
+
+* 🔥 Chat history (memory)
+* 📌 Highlight answers in PDF
+* 🖼 Real image understanding
+* ⚡ Streaming responses (ChatGPT-like)
+* ☁️ Deployment (Vercel + Render)
+
+---
+
+## 🤝 Contributing
+
+Pull requests are welcome!
+For major changes, open an issue first.
+
+---
+
+## 📜 License
+
+This project is open-source and free to use.
+
+---
+
+## 💡 Author
+
+Built with ❤️ by Yash (yashu 🚀)
