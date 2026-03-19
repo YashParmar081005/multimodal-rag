@@ -1,0 +1,15 @@
+# Environments
+.env
+venv/
+env/
+__pycache__/
+
+# Node
+node_modules/
+dist/
+build/
+.npm/
+
+# Project specifics
+uploads/
+.DS_Store
